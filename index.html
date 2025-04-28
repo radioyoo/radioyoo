@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radio yoo| Premium Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3f096e;
+            --primary-light: #9D4EDD;
+            --primary-dark: #29054d;
+            --secondary: #E0AAFF;
+            --white: #FFFFFF;
+            --gray-light: #F8F9FA;
+            --gray-medium: #E9ECEF;
+            --gray-dark: #DEE2E6;
+            --text-dark: #212529;
+            --text-light: #495057;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.377);
+            --shadow-hover: 0 8px 30px rgba(123, 44, 191, 0.15);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--gray-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--white);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 180px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            z-index: -1;
+            border-radius: 24px 24px 0 0;
+        }
+
+        .header {
+            padding: 1.5rem 2rem 1rem; /* Reduced padding */
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .avatar {
+            width: 80px; /* Reduced from 100px */
+            height: 80px; /* Reduced from 100px */
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--white);
+            margin-bottom: 0.75rem; /* Reduced from 1.25rem */
+            transition: var(--transition);
+            z-index: 2;
+        }
+
+        .avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+        }
+
+        .username {
+            font-size: 1.5rem; /* Reduced from 1.75rem */
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 0.25rem;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .tagline {
+            
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.9rem; /* Reduced from 1rem */
+            font-weight: 400;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            max-width: 80%;
+            margin: 0 auto;
+        }
+
+        .links-container {
+            padding: 1.5rem 2rem 2rem;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            background: var(--white);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--gray-dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .link-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--secondary);
+        }
+
+        .link-item:hover::before {
+            width: 6px;
+            background: var(--primary-light);
+        }
+
+        .link-content {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .link-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            margin-right: 1.25rem;
+            box-shadow: 0 4px 12px rgba(123, 44, 191, 0.2);
+            transition: var(--transition);
+        }
+
+        .link-item:hover .link-icon {
+            transform: rotate(10deg) scale(1.1);
+            box-shadow: 0 6px 16px rgba(123, 44, 191, 0.3);
+        }
+
+        .link-text {
+            flex: 1;
+        }
+
+        .link-title {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.15rem;
+        }
+
+        .link-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            opacity: 0.8;
+        }
+
+        .link-arrow {
+            color: var(--primary-light);
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .link-item:hover .link-arrow {
+            transform: translateX(4px);
+            color: var(--primary-dark);
+        }
+
+        .player {
+            background: var(--white);
+            border-radius: 14px;
+            padding: 1.25rem;
+            margin: 1.5rem 2rem 2rem;
+            display: flex;
+            align-items: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-dark);
+            transition: var(--transition);
+        }
+
+        .player:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .play-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--white);
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            box-shadow: 0 6px 18px rgba(123, 44, 191, 0.25);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .play-btn::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+            border-radius: 50%;
+            top: 0;
+            left: 0;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(123, 44, 191, 0.35);
+        }
+
+        .player-info {
+            flex: 1;
+        }
+
+        .player-title {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.15rem;
+        }
+
+        .player-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            margin-left: 1rem;
+        }
+
+        .volume-btn {
+            background: none;
+            border: none;
+            color: var(--primary-light);
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-right: 0.75rem;
+            transition: var(--transition);
+        }
+
+        .volume-btn:hover {
+            color: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        .volume-slider {
+            width: 80px;
+            height: 4px;
+            -webkit-appearance: none;
+            background: var(--gray-medium);
+            border-radius: 2px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .volume-slider::-webkit-slider-thumb:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        .footer {
+            margin-top: 2rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        /* Platform-specific icon colors */
+        .fa-twitter { color: #1DA1F2 !important; }
+        .fa-facebook { color: #1877F2 !important; }
+        .fa-amazon { color: #FF9900 !important; }
+        .fa-music { color: #FF8C00 !important; }
+        .fa-instagram { 
+            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D) !important;
+            -webkit-background-clip: text !important;
+            background-clip: text !important;
+            color: transparent !important;
+        }
+        .fa-tiktok { color: #000000 !important; }
+        .fa-headphones { color: #00B050 !important; }
+        .fa-apple { color: #000000 !important; }
+        .fa-youtube { color: #FF0000 !important; }
+        .fa-spotify { color: #1DB954 !important; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="assets/logo.webp" alt="RadioYoo" class="avatar">
+            <h1 class="username">@Radio Yoo</h1>
+            <p class="tagline">leading online Radio Station</p>
+        </div>
+        
+        <div class="links-container">
+           
+            <!-- WhatsApp -->
+<a href="https://api.whatsapp.com/send?phone=256787670760" class="link-item" target="_blank">
+    <div class="link-content">
+        <div class="link-icon">
+            <i class="fab fa-whatsapp"></i>
+        </div>
+        <div class="link-text">
+            <div class="link-title">WhatsApp</div>
+            <div class="link-subtitle">Message us directly</div>
+        </div>
+    </div>
+    <i class="fas fa-chevron-right link-arrow"></i>
+</a>
+
+            <!-- TikTok -->
+            <a href="https://www.tiktok.com/@radioyooo" class="link-item" target="_blank">
+                <div class="link-content">
+                    <div class="link-icon">
+                        <i class="fab fa-tiktok"></i>
+                    </div>
+                    <div class="link-text">
+                        <div class="link-title">TikTok</div>
+                        <div class="link-subtitle">Watch our clips</div>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+            
+
+            <!-- Facebook -->
+            <a href="https://www.facebook.com/share/1EZBQsW91M/" class="link-item" target="_blank">
+                <div class="link-content">
+                    <div class="link-icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                    <div class="link-text">
+                        <div class="link-title">Facebook</div>
+                        <div class="link-subtitle">Connect with us</div>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+            
+
+
+            <!-- Instagram -->
+            <a href="https://www.instagram.com/radioyoo.ug?igsh=MXdyZDN1ZG4xc3Flaw==" class="link-item" target="_blank">
+                <div class="link-content">
+                    <div class="link-icon">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                    <div class="link-text">
+                        <div class="link-title">Instagram</div>
+                        <div class="link-subtitle">See our visuals</div>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+            
+
+           <!-- twiter -->
+           <a href="https://x.com/Radiooyoo?t=rp3HawZLDdnWWGDHikjQLg&s=09" class="link-item" target="_blank">
+            <div class="link-content">
+                <div class="link-icon">
+                    <i class="fab fa-x"></i>
+                </div>
+                <div class="link-text">
+                    <div class="link-title">X</div>
+                    <div class="link-subtitle">See our visuals</div>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right link-arrow"></i>
+        </a>
+            
+            
+            <!-- YouTube -->
+            <a href="https://www.youtube.com/@RadioYoolive" class="link-item" target="_blank">
+                <div class="link-content">
+                    <div class="link-icon">
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                    <div class="link-text">
+                        <div class="link-title">YouTube Channel</div>
+                        <div class="link-subtitle">Watch videos</div>
+                    </div>
+                </div>
+                <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+            
+
+        </div>
+        
+        <div class="player">
+            <button class="play-btn" id="playBtn">
+                <i class="fas fa-play" id="playIcon"></i>
+            </button>
+            
+            <div class="player-info">
+                <div class="player-title">Radio Yoo</div>
+                <div class="player-subtitle">Live Streaming • 24/7</div>
+            </div>
+            
+            <div class="volume-control">
+                <button class="volume-btn" id="muteBtn">
+                    <i class="fas fa-volume-up" id="volumeIcon"></i>
+                </button>
+                <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.7">
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        ❤️ Join Radio Yoo Premium Experience..
+    </div>
+    
+    <audio id="radioStream" preload="none">
+        <source src="https://stream.zeno.fm/xesdk5gwaphvv" type="audio/mpeg">
+    </audio>
+    
+    <script>
+        const audio = document.getElementById('radioStream');
+        const playBtn = document.getElementById('playBtn');
+        const playIcon = document.getElementById('playIcon');
+        const muteBtn = document.getElementById('muteBtn');
+        const volumeIcon = document.getElementById('volumeIcon');
+        const volumeSlider = document.getElementById('volumeSlider');
+        
+        let isPlaying = false;
+        
+        // Play/Pause functionality
+        playBtn.addEventListener('click', function() {
+            if (isPlaying) {
+                audio.pause();
+                playIcon.classList.remove('fa-pause');
+                playIcon.classList.add('fa-play');
+            } else {
+                audio.play()
+                    .then(() => {
+                        playIcon.classList.remove('fa-play');
+                        playIcon.classList.add('fa-pause');
+                        isPlaying = true;
+                    })
+                    .catch(error => {
+                        console.error('Playback failed:', error);
+                        alert('Playback failed. Please interact with the page first or check your connection.');
+                    });
+            }
+        });
+        
+        // Volume control
+        volumeSlider.addEventListener('input', function() {
+            audio.volume = this.value;
+            updateVolumeIcon();
+        });
+        
+        // Mute toggle
+        muteBtn.addEventListener('click', function() {
+            if (audio.volume > 0) {
+                audio.volume = 0;
+                volumeSlider.value = 0;
+            } else {
+                audio.volume = 0.7;
+                volumeSlider.value = 0.7;
+            }
+            updateVolumeIcon();
+        });
+        
+        // Set initial volume
+        audio.volume = volumeSlider.value;
+        
+        function updateVolumeIcon() {
+            if (audio.volume == 0) {
+                volumeIcon.classList.remove('fa-volume-up', 'fa-volume-down');
+                volumeIcon.classList.add('fa-volume-mute');
+            } else if (audio.volume < 0.5) {
+                volumeIcon.classList.remove('fa-volume-up', 'fa-volume-mute');
+                volumeIcon.classList.add('fa-volume-down');
+            } else {
+                volumeIcon.classList.remove('fa-volume-down', 'fa-volume-mute');
+                volumeIcon.classList.add('fa-volume-up');
+            }
+        }
+        
+        // Handle page visibility changes
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden && isPlaying) {
+                audio.pause();
+                playIcon.classList.remove('fa-pause');
+                playIcon.classList.add('fa-play');
+                isPlaying = false;
+            }
+        });
+    </script>
+</body>
+</html>
