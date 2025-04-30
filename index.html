@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Radio yoo| Premium Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -37,7 +37,7 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding: 1rem;
+            padding: 2rem;
         }
 
         .container {
@@ -64,7 +64,7 @@
         }
 
         .header {
-            padding: 1.25rem 1.5rem 0.75rem;
+            padding: 1.5rem 2rem 1rem;
             text-align: center;
             position: relative;
             display: flex;
@@ -73,8 +73,8 @@
         }
 
         .avatar {
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid var(--white);
@@ -89,7 +89,7 @@
         }
 
         .username {
-            font-size: 1.35rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--white);
             margin-bottom: 0.25rem;
@@ -99,25 +99,25 @@
 
         .tagline {
             color: rgba(255, 255, 255, 0.85);
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 400;
             text-shadow: 0 1px 3px rgba(0,0,0,0.2);
-            max-width: 90%;
+            max-width: 80%;
             margin: 0 auto;
         }
 
         .links-container {
-            padding: 1rem 1.25rem 1.5rem;
+            padding: 1.5rem 2rem 2rem;
         }
 
         .link-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0.9rem 1.25rem;
-            margin-bottom: 0.9rem;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
             background: var(--white);
-            border-radius: 12px;
+            border-radius: 14px;
             box-shadow: var(--shadow);
             transition: var(--transition);
             border: 1px solid var(--gray-dark);
@@ -151,23 +151,21 @@
             display: flex;
             align-items: center;
             flex: 1;
-            min-width: 0; /* Prevent flex items from overflowing */
         }
 
         .link-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: var(--white);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
-            margin-right: 1rem;
+            font-size: 1.25rem;
+            margin-right: 1.25rem;
             box-shadow: 0 4px 12px rgba(123, 44, 191, 0.2);
             transition: var(--transition);
-            flex-shrink: 0;
         }
 
         .link-item:hover .link-icon {
@@ -177,34 +175,24 @@
 
         .link-text {
             flex: 1;
-            min-width: 0; /* Prevent text overflow */
-            overflow: hidden;
         }
 
         .link-title {
             font-weight: 600;
             color: var(--text-dark);
             margin-bottom: 0.15rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .link-subtitle {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--text-light);
             opacity: 0.8;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .link-arrow {
             color: var(--primary-light);
-            font-size: 1rem;
+            font-size: 1.1rem;
             transition: var(--transition);
-            margin-left: 0.5rem;
-            flex-shrink: 0;
         }
 
         .link-item:hover .link-arrow {
@@ -215,13 +203,14 @@
         .player {
             background: var(--white);
             border-radius: 14px;
-            padding: 1rem;
-            margin: 1rem 1.25rem 1.5rem;
+            padding: 1.25rem;
+            margin: 1.5rem 2rem 2rem;
             display: flex;
             align-items: center;
             box-shadow: var(--shadow);
             border: 1px solid var(--gray-dark);
             transition: var(--transition);
+            position: relative;
         }
 
         .player:hover {
@@ -230,23 +219,22 @@
         }
 
         .play-btn {
-            width: 48px;
-            height: 48px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: var(--white);
             border: none;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 0.8rem;
+            margin-right: 1rem;
             box-shadow: 0 6px 18px rgba(123, 44, 191, 0.25);
             transition: var(--transition);
             position: relative;
             overflow: hidden;
-            flex-shrink: 0;
         }
 
         .play-btn::after {
@@ -267,43 +255,33 @@
 
         .player-info {
             flex: 1;
-            min-width: 0; /* Prevent text overflow */
         }
 
         .player-title {
             font-weight: 600;
             color: var(--text-dark);
             margin-bottom: 0.15rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .player-subtitle {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--text-light);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .volume-control {
             display: flex;
             align-items: center;
-            margin-left: 0.5rem;
-            max-width: 100px;
-            flex-shrink: 0;
+            margin-left: 1rem;
         }
 
         .volume-btn {
             background: none;
             border: none;
             color: var(--primary-light);
-            font-size: 1rem;
+            font-size: 1.2rem;
             cursor: pointer;
-            margin-right: 0.5rem;
+            margin-right: 0.75rem;
             transition: var(--transition);
-            flex-shrink: 0;
         }
 
         .volume-btn:hover {
@@ -312,9 +290,7 @@
         }
 
         .volume-slider {
-            width: 100%;
-            min-width: 60px;
-            max-width: 80px;
+            width: 80px;
             height: 4px;
             -webkit-appearance: none;
             background: var(--gray-medium);
@@ -325,8 +301,8 @@
 
         .volume-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
             background: var(--primary);
             cursor: pointer;
@@ -339,12 +315,48 @@
         }
 
         .footer {
-            margin-top: 1.5rem;
+            margin-top: 2rem;
             color: var(--text-light);
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             text-align: center;
             opacity: 0.8;
-            padding: 0 1rem;
+        }
+
+        /* Loader styles */
+        .loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .loader.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .loader-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(158, 78, 221, 0.2);
+            border-top: 4px solid var(--primary-light);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* Platform-specific icon colors */
@@ -365,105 +377,17 @@
         .fa-spotify { color: #1DB954 !important; }
         .fa-whatsapp { color: #25D366 !important; }
         .fa-x { color: #000000 !important; }
-
-        /* Responsive adjustments */
-        @media (max-width: 400px) {
-            body {
-                padding: 0.75rem;
-            }
-            
-            .header {
-                padding: 1rem 1.25rem 0.5rem;
-            }
-            
-            .avatar {
-                width: 60px;
-                height: 60px;
-            }
-            
-            .username {
-                font-size: 1.2rem;
-            }
-            
-            .tagline {
-                font-size: 0.8rem;
-            }
-            
-            .links-container {
-                padding: 0.75rem 1rem 1.25rem;
-            }
-            
-            .link-item {
-                padding: 0.75rem 1rem;
-                margin-bottom: 0.75rem;
-            }
-            
-            .link-icon {
-                width: 36px;
-                height: 36px;
-                font-size: 1rem;
-                margin-right: 0.8rem;
-            }
-            
-            .link-title {
-                font-size: 0.95rem;
-            }
-            
-            .link-subtitle {
-                font-size: 0.75rem;
-            }
-            
-            .player {
-                padding: 0.8rem;
-                margin: 0.8rem 1rem 1.25rem;
-            }
-            
-            .play-btn {
-                width: 42px;
-                height: 42px;
-                font-size: 1.1rem;
-                margin-right: 0.6rem;
-            }
-            
-            .player-title {
-                font-size: 0.95rem;
-            }
-            
-            .player-subtitle {
-                font-size: 0.75rem;
-            }
-            
-            .volume-btn {
-                font-size: 0.9rem;
-                margin-right: 0.4rem;
-            }
-            
-            .volume-slider {
-                min-width: 50px;
-            }
-        }
-
-        @media (max-width: 350px) {
-            .volume-slider {
-                min-width: 40px;
-            }
-            
-            .link-arrow {
-                margin-left: 0.3rem;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <img src="assets/logo.webp" alt="RadioYoo" class="avatar">
-            <h1 class="username">@Radio Yoo Links</h1>
+            <h1 class="username">@Radio Yoo</h1>
             <p class="tagline">leading online Radio Station</p>
         </div>
         
         <div class="links-container">
-           
             <!-- WhatsApp -->
             <a href="https://api.whatsapp.com/send?phone=256787670760" class="link-item" target="_blank">
                 <div class="link-content">
@@ -492,7 +416,6 @@
                 <i class="fas fa-chevron-right link-arrow"></i>
             </a>
             
-
             <!-- Facebook -->
             <a href="https://www.facebook.com/share/1EZBQsW91M/" class="link-item" target="_blank">
                 <div class="link-content">
@@ -507,8 +430,6 @@
                 <i class="fas fa-chevron-right link-arrow"></i>
             </a>
             
-
-
             <!-- Instagram -->
             <a href="https://www.instagram.com/radioyoo.ug?igsh=MXdyZDN1ZG4xc3Flaw==" class="link-item" target="_blank">
                 <div class="link-content">
@@ -523,9 +444,8 @@
                 <i class="fas fa-chevron-right link-arrow"></i>
             </a>
             
-
-           <!-- twiter -->
-           <a href="https://x.com/Radiooyoo?t=rp3HawZLDdnWWGDHikjQLg&s=09" class="link-item" target="_blank">
+            <!-- Twitter/X -->
+            <a href="https://x.com/Radiooyoo?t=rp3HawZLDdnWWGDHikjQLg&s=09" class="link-item" target="_blank">
                 <div class="link-content">
                     <div class="link-icon">
                         <i class="fab fa-x"></i>
@@ -537,7 +457,6 @@
                 </div>
                 <i class="fas fa-chevron-right link-arrow"></i>
             </a>
-            
             
             <!-- YouTube -->
             <a href="https://www.youtube.com/@RadioYoolive" class="link-item" target="_blank">
@@ -552,11 +471,12 @@
                 </div>
                 <i class="fas fa-chevron-right link-arrow"></i>
             </a>
-            
-
         </div>
         
         <div class="player">
+            <div class="loader" id="loader">
+                <div class="loader-spinner"></div>
+            </div>
             <button class="play-btn" id="playBtn">
                 <i class="fas fa-play" id="playIcon"></i>
             </button>
@@ -579,7 +499,8 @@
         ❤️ Join Radio Yoo Premium Experience..
     </div>
     
-    <audio id="radioStream" preload="none">
+    <!-- Audio element with preload for faster loading -->
+    <audio id="radioStream" preload="auto" loop>
         <source src="https://stream.zeno.fm/xesdk5gwaphvv" type="audio/mpeg">
     </audio>
     
@@ -590,8 +511,45 @@
         const muteBtn = document.getElementById('muteBtn');
         const volumeIcon = document.getElementById('volumeIcon');
         const volumeSlider = document.getElementById('volumeSlider');
+        const loader = document.getElementById('loader');
         
         let isPlaying = false;
+        let isFirstPlay = true;
+        
+        // Set up service worker for background playback if supported
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(registrationError => {
+                    console.log('SW registration failed: ', registrationError);
+                });
+            });
+        }
+        
+        // Preload audio when page loads
+        window.addEventListener('load', function() {
+            // Start loading the audio but don't play it yet
+            audio.load();
+            
+            // Set a timeout to show loader if audio takes too long to load
+            const loadTimeout = setTimeout(() => {
+                if (!isPlaying && isFirstPlay) {
+                    loader.classList.add('active');
+                }
+            }, 500);
+            
+            // When audio can play through, hide loader
+            audio.addEventListener('canplaythrough', function() {
+                clearTimeout(loadTimeout);
+                loader.classList.remove('active');
+            });
+            
+            // Handle errors
+            audio.addEventListener('error', function() {
+                clearTimeout(loadTimeout);
+                loader.classList.remove('active');
+                alert('Error loading audio stream. Please try again later.');
+            });
+        });
         
         // Play/Pause functionality
         playBtn.addEventListener('click', function() {
@@ -601,18 +559,42 @@
                 playIcon.classList.add('fa-play');
                 isPlaying = false;
             } else {
-                audio.play()
-                    .then(() => {
-                        playIcon.classList.remove('fa-play');
-                        playIcon.classList.add('fa-pause');
-                        isPlaying = true;
-                    })
-                    .catch(error => {
-                        console.error('Playback failed:', error);
-                        alert('Playback failed. Please interact with the page first or check your connection.');
+                loader.classList.add('active');
+                
+                // On first play, we might need user interaction
+                if (isFirstPlay) {
+                    // Create a silent audio context to unlock audio on mobile devices
+                    const silentAudio = new Audio();
+                    silentAudio.src = 'data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU...';
+                    silentAudio.volume = 0;
+                    silentAudio.play().then(() => {
+                        // Now try playing the real audio
+                        playAudio();
+                    }).catch(e => {
+                        console.error('Silent audio failed:', e);
+                        playAudio();
                     });
+                } else {
+                    playAudio();
+                }
             }
         });
+        
+        function playAudio() {
+            audio.play()
+                .then(() => {
+                    playIcon.classList.remove('fa-play');
+                    playIcon.classList.add('fa-pause');
+                    isPlaying = true;
+                    isFirstPlay = false;
+                    loader.classList.remove('active');
+                })
+                .catch(error => {
+                    console.error('Playback failed:', error);
+                    loader.classList.remove('active');
+                    alert('Playback failed. Please click the play button again or check your connection.');
+                });
+        }
         
         // Volume control
         volumeSlider.addEventListener('input', function() {
@@ -648,15 +630,18 @@
             }
         }
         
-        // Handle page visibility changes
+        // Handle page visibility changes - don't pause when minimized
         document.addEventListener('visibilitychange', function() {
-            if (document.hidden && isPlaying) {
-                audio.pause();
-                playIcon.classList.remove('fa-pause');
-                playIcon.classList.add('fa-play');
-                isPlaying = false;
+            // Keep playing even when minimized
+            if (!document.hidden && !isPlaying && !isFirstPlay) {
+                audio.play().catch(e => console.log('Autoplay prevented:', e));
             }
         });
+        
+        // Keep audio alive in background
+        document.addEventListener('click', function() {
+            // This empty click handler helps keep audio alive on some mobile browsers
+        }, false);
     </script>
 </body>
 </html>
