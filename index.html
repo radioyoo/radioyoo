@@ -380,6 +380,16 @@
     </style>
 </head>
 <body>
+    <script>
+        // Register service worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => console.log('SW registered'))
+                    .catch(err => console.log('SW registration failed: ', err));
+            });
+        }
+    </script>
     <div class="container">
         <div class="header">
             <img src="assets/logo.webp" alt="RadioYoo" class="avatar">
@@ -505,143 +515,223 @@
     </audio>
     
     <script>
-        const audio = document.getElementById('radioStream');
-        const playBtn = document.getElementById('playBtn');
-        const playIcon = document.getElementById('playIcon');
-        const muteBtn = document.getElementById('muteBtn');
-        const volumeIcon = document.getElementById('volumeIcon');
-        const volumeSlider = document.getElementById('volumeSlider');
-        const loader = document.getElementById('loader');
+       const audio = document.getElementById('radioStream');
+const playBtn = document.getElementById('playBtn');
+const playIcon = document.getElementById('playIcon');
+const muteBtn = document.getElementById('muteBtn');
+const volumeIcon = document.getElementById('volumeIcon');
+const volumeSlider = document.getElementById('volumeSlider');
+const loader = document.getElementById('loader');
+
+let isPlaying = false;
+let isFirstPlay = true;
+
+// Set up Media Session for notification controls
+function setupMediaSession() {
+    if ('mediaSession' in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: 'Radio Yoo',
+            artist: 'Live Streaming • 24/7',
+            artwork: [
+                { src: 'assets/logo.webp', sizes: '96x96', type: 'image/webp' },
+                { src: 'assets/logo.webp', sizes: '128x128', type: 'image/webp' },
+                { src: 'assets/logo.webp', sizes: '192x192', type: 'image/webp' },
+                { src: 'assets/logo.webp', sizes: '256x256', type: 'image/webp' },
+                { src: 'assets/logo.webp', sizes: '384x384', type: 'image/webp' },
+                { src: 'assets/logo.webp', sizes: '512x512', type: 'image/webp' }
+            ]
+        });
+
+        navigator.mediaSession.setActionHandler('play', () => {
+            playAudio();
+        });
         
-        let isPlaying = false;
-        let isFirstPlay = true;
+        navigator.mediaSession.setActionHandler('pause', () => {
+            audio.pause();
+            playIcon.classList.remove('fa-pause');
+            playIcon.classList.add('fa-play');
+            isPlaying = false;
+            updateMediaSessionState();
+        });
         
-        // Set up service worker for background playback if supported
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').catch(registrationError => {
-                    console.log('SW registration failed: ', registrationError);
-                });
+        navigator.mediaSession.setActionHandler('stop', () => {
+            audio.pause();
+            playIcon.classList.remove('fa-pause');
+            playIcon.classList.add('fa-play');
+            isPlaying = false;
+            updateMediaSessionState();
+        });
+    }
+}
+
+function updateMediaSessionState() {
+    if ('mediaSession' in navigator) {
+        navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+        
+        // Notify service worker about media session changes
+        if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({
+                type: 'SET_MEDIA_SESSION',
+                state: isPlaying ? 'playing' : 'paused'
             });
         }
+    }
+}
+
+// Preload audio when page loads
+window.addEventListener('load', function() {
+    // Start loading the audio but don't play it yet
+    audio.load();
+    setupMediaSession();
+    
+    // Set a timeout to show loader if audio takes too long to load
+    const loadTimeout = setTimeout(() => {
+        if (!isPlaying && isFirstPlay) {
+            loader.classList.add('active');
+        }
+    }, 500);
+    
+    // When audio can play through, hide loader
+    audio.addEventListener('canplaythrough', function() {
+        clearTimeout(loadTimeout);
+        loader.classList.remove('active');
+    });
+    
+    // Handle errors
+    audio.addEventListener('error', function() {
+        clearTimeout(loadTimeout);
+        loader.classList.remove('active');
+        alert('Error loading audio stream. Please try again later.');
+    });
+});
+
+// Play/Pause functionality
+playBtn.addEventListener('click', function() {
+    if (isPlaying) {
+        audio.pause();
+        playIcon.classList.remove('fa-pause');
+        playIcon.classList.add('fa-play');
+        isPlaying = false;
+        updateMediaSessionState();
+    } else {
+        loader.classList.add('active');
         
-        // Preload audio when page loads
-        window.addEventListener('load', function() {
-            // Start loading the audio but don't play it yet
-            audio.load();
+        // On first play, we might need user interaction
+        if (isFirstPlay) {
+            // Create a silent audio context to unlock audio on mobile devices
+            const silentAudio = new Audio();
+            silentAudio.src = 'data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU...';
+            silentAudio.volume = 0;
+            silentAudio.play().then(() => {
+                // Now try playing the real audio
+                playAudio();
+            }).catch(e => {
+                console.error('Silent audio failed:', e);
+                playAudio();
+            });
+        } else {
+            playAudio();
+        }
+    }
+});
+
+function playAudio() {
+    audio.play()
+        .then(() => {
+            playIcon.classList.remove('fa-play');
+            playIcon.classList.add('fa-pause');
+            isPlaying = true;
+            isFirstPlay = false;
+            loader.classList.remove('active');
+            updateMediaSessionState();
             
-            // Set a timeout to show loader if audio takes too long to load
-            const loadTimeout = setTimeout(() => {
-                if (!isPlaying && isFirstPlay) {
-                    loader.classList.add('active');
+            // For iOS, we need to set up the audio session type
+            if (window.webkitAudioContext) {
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    if (audioContext.createMediaElementSource) {
+                        const source = audioContext.createMediaElementSource(audio);
+                        source.connect(audioContext.destination);
+                    }
+                } catch (e) {
+                    console.log('AudioContext error:', e);
                 }
-            }, 500);
-            
-            // When audio can play through, hide loader
-            audio.addEventListener('canplaythrough', function() {
-                clearTimeout(loadTimeout);
-                loader.classList.remove('active');
-            });
-            
-            // Handle errors
-            audio.addEventListener('error', function() {
-                clearTimeout(loadTimeout);
-                loader.classList.remove('active');
-                alert('Error loading audio stream. Please try again later.');
-            });
-        });
-        
-        // Play/Pause functionality
-        playBtn.addEventListener('click', function() {
-            if (isPlaying) {
-                audio.pause();
-                playIcon.classList.remove('fa-pause');
-                playIcon.classList.add('fa-play');
-                isPlaying = false;
-            } else {
-                loader.classList.add('active');
-                
-                // On first play, we might need user interaction
-                if (isFirstPlay) {
-                    // Create a silent audio context to unlock audio on mobile devices
-                    const silentAudio = new Audio();
-                    silentAudio.src = 'data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU...';
-                    silentAudio.volume = 0;
-                    silentAudio.play().then(() => {
-                        // Now try playing the real audio
-                        playAudio();
-                    }).catch(e => {
-                        console.error('Silent audio failed:', e);
-                        playAudio();
-                    });
-                } else {
-                    playAudio();
-                }
             }
+        })
+        .catch(error => {
+            console.error('Playback failed:', error);
+            loader.classList.remove('active');
+            alert('Playback failed. Please click the play button again or check your connection.');
         });
-        
-        function playAudio() {
-            audio.play()
-                .then(() => {
-                    playIcon.classList.remove('fa-play');
-                    playIcon.classList.add('fa-pause');
-                    isPlaying = true;
-                    isFirstPlay = false;
-                    loader.classList.remove('active');
-                })
-                .catch(error => {
-                    console.error('Playback failed:', error);
-                    loader.classList.remove('active');
-                    alert('Playback failed. Please click the play button again or check your connection.');
-                });
+}
+
+// Volume control
+volumeSlider.addEventListener('input', function() {
+    audio.volume = this.value;
+    updateVolumeIcon();
+});
+
+// Mute toggle
+muteBtn.addEventListener('click', function() {
+    if (audio.volume > 0) {
+        audio.volume = 0;
+        volumeSlider.value = 0;
+    } else {
+        audio.volume = 0.7;
+        volumeSlider.value = 0.7;
+    }
+    updateVolumeIcon();
+});
+
+// Set initial volume
+audio.volume = volumeSlider.value;
+
+function updateVolumeIcon() {
+    if (audio.volume == 0) {
+        volumeIcon.classList.remove('fa-volume-up', 'fa-volume-down');
+        volumeIcon.classList.add('fa-volume-mute');
+    } else if (audio.volume < 0.5) {
+        volumeIcon.classList.remove('fa-volume-up', 'fa-volume-mute');
+        volumeIcon.classList.add('fa-volume-down');
+    } else {
+        volumeIcon.classList.remove('fa-volume-down', 'fa-volume-mute');
+        volumeIcon.classList.add('fa-volume-up');
+    }
+}
+
+// Handle page visibility changes - don't pause when minimized
+document.addEventListener('visibilitychange', function() {
+    // Keep playing even when minimized
+    if (!document.hidden && !isPlaying && !isFirstPlay) {
+        audio.play().catch(e => console.log('Autoplay prevented:', e));
+    }
+});
+
+// Keep audio alive in background
+document.addEventListener('click', function() {
+    // This empty click handler helps keep audio alive on some mobile browsers
+}, false);
+
+// Handle messages from service worker
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.addEventListener('message', event => {
+        if (event.data.type === 'PLAY') {
+            playAudio();
+        } else if (event.data.type === 'PAUSE') {
+            audio.pause();
+            playIcon.classList.remove('fa-pause');
+            playIcon.classList.add('fa-play');
+            isPlaying = false;
+            updateMediaSessionState();
+        } else if (event.data.type === 'STOP') {
+            audio.pause();
+            playIcon.classList.remove('fa-pause');
+            playIcon.classList.add('fa-play');
+            isPlaying = false;
+            updateMediaSessionState();
         }
-        
-        // Volume control
-        volumeSlider.addEventListener('input', function() {
-            audio.volume = this.value;
-            updateVolumeIcon();
-        });
-        
-        // Mute toggle
-        muteBtn.addEventListener('click', function() {
-            if (audio.volume > 0) {
-                audio.volume = 0;
-                volumeSlider.value = 0;
-            } else {
-                audio.volume = 0.7;
-                volumeSlider.value = 0.7;
-            }
-            updateVolumeIcon();
-        });
-        
-        // Set initial volume
-        audio.volume = volumeSlider.value;
-        
-        function updateVolumeIcon() {
-            if (audio.volume == 0) {
-                volumeIcon.classList.remove('fa-volume-up', 'fa-volume-down');
-                volumeIcon.classList.add('fa-volume-mute');
-            } else if (audio.volume < 0.5) {
-                volumeIcon.classList.remove('fa-volume-up', 'fa-volume-mute');
-                volumeIcon.classList.add('fa-volume-down');
-            } else {
-                volumeIcon.classList.remove('fa-volume-down', 'fa-volume-mute');
-                volumeIcon.classList.add('fa-volume-up');
-            }
-        }
-        
-        // Handle page visibility changes - don't pause when minimized
-        document.addEventListener('visibilitychange', function() {
-            // Keep playing even when minimized
-            if (!document.hidden && !isPlaying && !isFirstPlay) {
-                audio.play().catch(e => console.log('Autoplay prevented:', e));
-            }
-        });
-        
-        // Keep audio alive in background
-        document.addEventListener('click', function() {
-            // This empty click handler helps keep audio alive on some mobile browsers
-        }, false);
+    });
+}
     </script>
 </body>
 </html>
